@@ -1,10 +1,9 @@
-import { IUser } from './../../../dist/modules/mongo-models/user.model.d';
 import { CartDto } from './dto/cart.dto';
 import { ProductsService } from './../products/products.service';
 import { ICart } from './../mongo-models/cart.model';
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { PaginationDto, PaginationService, SlackService, UsersService, WebsocketGateway } from "oteos-backend-lib";
+import { IUser, PaginationDto, PaginationService, SlackService, UsersService, WebsocketGateway } from "oteos-backend-lib";
 
 @Injectable()
 export class CartService {
