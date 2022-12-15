@@ -54,7 +54,7 @@ require("dotenv").config();
       inject: [ConfigService],
     }),
     WebsocketModule.register({
-      port: 8181,
+      port: 8686,
     }),
     PermissionsModule,
     RolesModule,
