@@ -1,10 +1,12 @@
 import { IProduct } from './../mongo-models/product.model';
 import { ProductDto } from './dto/product.dto';
 import { ProductsService } from './products.service';
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors, ValidationPipe } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from '@nestjs/passport';
 import { PaginationDto } from 'oteos-backend-lib';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express'
 
 @Controller('api/v1/products')
 @ApiTags('products')
@@ -12,8 +14,8 @@ export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
+  /* @UseGuards(AuthGuard())
+  @ApiBearerAuth('JWT-auth') */
   @ApiOperation({
     summary: 'Get all products',
   })
@@ -54,6 +56,17 @@ export class ProductsController {
   })
   deleteProduct(@Param('code') code: string): Promise<boolean> {
     return this.productsService.deleteProduct(code);
+  }
+
+  @Post('setImage/:code')
+  @UseGuards(AuthGuard())
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Set image to product',
+  })
+  setImageToProduct(@Param('code') code: string, @UploadedFile() file: Express.Multer.File) {
+    return this.productsService.setImageToProduct(code, file);
   }
 }
   

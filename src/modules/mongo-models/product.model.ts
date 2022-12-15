@@ -9,7 +9,6 @@ export interface IProduct {
   tax: number;
   publicSellPrice: number;
   stock: number;
-  image: string;
   typeObj?: string;
 }
 
@@ -48,10 +47,6 @@ export const productSchema = new Schema<IProduct>(
     },
     stock: {
       type: Number,
-      required: true,
-    },
-    image: {
-      type: String,
       required: true,
     },
     typeObj: { 

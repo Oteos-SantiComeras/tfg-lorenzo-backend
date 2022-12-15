@@ -1,4 +1,4 @@
-import { ICategory } from './../mongo-models/category.model';
+import { ICategory } from '../mongo-models/category.model';
 import { CategoryDto } from './dto/category.dto';
 import { CategoriesService } from './categories.service';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, ValidationPipe, } from '@nestjs/common';
@@ -12,8 +12,6 @@ export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
 
   @Get()
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Get all categories',
   })

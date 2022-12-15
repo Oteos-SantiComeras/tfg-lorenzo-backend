@@ -4,6 +4,9 @@ import { IProduct } from './../mongo-models/product.model';
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { PaginationDto, PaginationService, SlackService, WebsocketGateway } from "oteos-backend-lib";
+import { Express } from 'express';
+import * as fs from 'fs';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ProductsService {
@@ -15,6 +18,7 @@ export class ProductsService {
         @Inject('MODEL')
         private ProductModel: Model<IProduct>,
         private readonly categoriesService: CategoriesService,
+        private readonly configService: ConfigService,
     ) { }
 
     async fetchProducts(query: any): Promise<PaginationDto> {
@@ -29,6 +33,12 @@ export class ProductsService {
         }
         if (query["name"]) {
             where["name"] = query["name"];
+        }
+        if (query["category"]) {
+            const category = await this.categoriesService.findCategory(query["category"]);
+            if (category) {
+                where["category"] = category;
+            }
         }
 
         if (query["tax"]) {
@@ -45,7 +55,10 @@ export class ProductsService {
 
         try { 
             pagination.totalItems = await this.ProductModel.countDocuments(where);
-            pagination.items = await this.ProductModel.find(where);
+            pagination.items = await this.ProductModel.find(where).populate({
+                path: 'category',
+                model: 'Category',
+            });
 
             // No Pagination
             if (!page && !totalItemsPage) {
@@ -67,7 +80,10 @@ export class ProductsService {
             let skip: number = await this.paginationService.getSkipValue(page, totalItemsPage);
         
             // Get Paginated Items
-            pagination.items = await this.ProductModel.find(where).skip(skip).limit(parseInt(totalItemsPage.toString()));
+            pagination.items = await this.ProductModel.find(where).skip(skip).limit(parseInt(totalItemsPage.toString())).populate({
+                path: 'category',
+                model: 'Category',
+            });
         } catch (err) {
             this.slackService.messageToChannel(
                 SlackService.appChannel, 
@@ -105,7 +121,6 @@ export class ProductsService {
                 tax: product.tax,
                 publicSellPrice: product.publicSellPrice,
                 stock: product.stock,
-                image: product.image,
             });
 
             await newProduct.save();
@@ -149,7 +164,6 @@ export class ProductsService {
                 tax: newProduct.tax,
                 publicSellPrice: newProduct.publicSellPrice,
                 stock: newProduct.stock,
-                image: newProduct.image,
             }
 
             Object.assign(existProduct, updateProduct);
@@ -197,6 +211,35 @@ export class ProductsService {
         }
 
         return deleted;
+    }
+
+    async setImageToProduct(code: string, file: Express.Multer.File): Promise<boolean> {
+        const product: IProduct = await this.findProduct(code);
+        if(!product){
+            console.log("[setImageToProduct] Product " + code + " not found");
+            throw new ConflictException('Product ' + code + ' not found');
+        }
+
+        let savedImaeg: boolean = false;
+
+        try {
+            const path: string = this.configService.get("app.serverPath");
+
+            const existFolder: boolean = fs.existsSync(path);
+            if (!existFolder) {
+                fs.mkdirSync(path);
+            }
+
+            /* const extension: string = file.mimetype.toString().split("/")[1]; */
+            const extension: string = 'jpeg';
+            fs.writeFileSync(`${path}/${product.code}.${extension}`, file.buffer);
+            
+            savedImaeg = true;
+        } catch (err) {
+
+        }
+
+        return savedImaeg;
     }
 
     async findProduct(code: string) {

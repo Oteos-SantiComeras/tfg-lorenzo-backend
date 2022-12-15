@@ -1,6 +1,6 @@
 import { ICategory, categorySchema } from './../mongo-models/category.model';
 import { CategoriesService } from './categories.service';
-import { CategoriesController } from './permissions.controller';
+import { CategoriesController } from './categories.controller';
 import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { MongoDbService, PaginationModule, SlackModule } from "oteos-backend-lib";

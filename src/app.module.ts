@@ -1,3 +1,5 @@
+import { OrdersModule } from './modules/orders/orders.module';
+import { CartModule } from './modules/cart/cart.module';
 import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { configurationSlack } from './configuration/configuration-slack';
@@ -100,6 +102,8 @@ require("dotenv").config();
     CategoriesModule,
     ProductsModule,
     PopulateModule,
+    CartModule,
+    OrdersModule,
   ],
   controllers: [],
   providers: [],
