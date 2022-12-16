@@ -1,4 +1,3 @@
-import { CartModule } from './../cart/cart.module';
 import { ProductsModule } from './../products/products.module';
 import { CategoriesModule } from './../categories/categories.module';
 import { UsersModule, RolesModule, PermissionsModule } from 'oteos-backend-lib';
@@ -12,7 +11,6 @@ import { PopulateService } from './populate.service';
     UsersModule,
     CategoriesModule,
     ProductsModule,
-    CartModule,
   ],
   controllers: [],
   providers: [PopulateService]
