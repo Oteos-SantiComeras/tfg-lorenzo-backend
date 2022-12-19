@@ -10,7 +10,6 @@ import {
   EmailerConfig,
   EmailerModule,
   LoggerModule,
-  GlobalConfigurationModule,
   AuthConfig,
   AuthModule,
   PermissionsModule,
@@ -21,21 +20,19 @@ import {
   SlackConfig,
   CompaniesModule,
 } from "oteos-backend-lib";
-import { PublicMiddleware } from "./middlewares/public.middleware";
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { configurationApp } from "./configuration/configuration-app";
 import { configurationAuth } from "./configuration/configuration-auth";
 import { configurationEmailer } from "./configuration/configuration-emailer";
 import { configurationMongo } from "./configuration/configuration-mongo";
 import { PopulateModule } from "./modules/populate/populate.module";
-import { configurationSftp } from './configuration/configuration-sftp';
 require("dotenv").config();
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [configurationApp, configurationMongo, configurationAuth, configurationEmailer, configurationSlack, configurationSftp],
+      load: [configurationApp, configurationMongo, configurationAuth, configurationEmailer, configurationSlack],
       envFilePath: `./env/${process.env.NODE_ENV}.env`,
       isGlobal: true,
     }),
@@ -75,7 +72,6 @@ require("dotenv").config();
     }),
     LoggerModule,
     PaginationModule,
-    GlobalConfigurationModule,
     SlackModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
@@ -109,8 +105,10 @@ require("dotenv").config();
   providers: [],
 })
 
-export class AppModule implements NestModule {
+/* export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
     consumer.apply(PublicMiddleware).forRoutes("*");
   }
+} */
+export class AppModule {
 }

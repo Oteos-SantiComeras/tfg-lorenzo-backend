@@ -1,7 +1,5 @@
 import { ProductDto } from './../products/dto/product.dto';
 import { CategoryDto } from './../categories/dto/category.dto';
-import { CartDto } from './../cart/dto/cart.dto';
-import { CartService } from './../cart/cart.service';
 import { ProductsService } from './../products/products.service';
 import { CategoriesService } from './../categories/categories.service';
 import { ConfigService } from '@nestjs/config';
