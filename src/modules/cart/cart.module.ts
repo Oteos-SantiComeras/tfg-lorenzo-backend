@@ -1,4 +1,4 @@
-import { cartSchema, ICart } from './../mongo-models/cart.model';
+import { cartSchema, ICart } from './mongo-model/cart.model';
 import { CartService } from './cart.service';
 import { CartController } from './cart.controller';
 import { Module } from "@nestjs/common";

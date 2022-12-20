@@ -1,6 +1,6 @@
 import { CartService } from './../cart/cart.service';
 import { OrderDto } from './dto/order.dto';
-import { IOrder } from './../mongo-models/order.model';
+import { IOrder } from './mongo-model/order.model';
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { PaginationDto } from "oteos-backend-lib";

@@ -1,5 +1,5 @@
 import { CartDto } from './dto/cart.dto';
-import { ICart } from './../mongo-models/cart.model';
+import { ICart } from './mongo-model/cart.model';
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { IUser, PaginationDto, UsersService } from "oteos-backend-lib";

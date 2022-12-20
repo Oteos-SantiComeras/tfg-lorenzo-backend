@@ -1,4 +1,4 @@
-import { IProduct } from './../mongo-models/product.model';
+import { IProduct } from './mongo-model/product.model';
 import { ProductDto } from './dto/product.dto';
 import { ProductsService } from './products.service';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors, ValidationPipe } from "@nestjs/common";

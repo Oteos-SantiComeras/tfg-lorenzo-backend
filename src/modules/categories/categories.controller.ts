@@ -1,4 +1,4 @@
-import { ICategory } from '../mongo-models/category.model';
+import { ICategory } from './mongo-model/category.model';
 import { CategoryDto } from './dto/category.dto';
 import { CategoriesService } from './categories.service';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe, } from '@nestjs/common';

@@ -1,5 +1,5 @@
 import { CategoryDto } from './dto/category.dto';
-import { ICategory } from './../mongo-models/category.model';
+import { ICategory } from './mongo-model/category.model';
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { PaginationDto } from "oteos-backend-lib";
 import { Model } from 'mongoose';

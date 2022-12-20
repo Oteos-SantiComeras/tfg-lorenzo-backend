@@ -1,5 +1,5 @@
 import { CategoriesModule } from './../categories/categories.module';
-import { IProduct, productSchema } from './../mongo-models/product.model';
+import { IProduct, productSchema } from './mongo-model/product.model';
 import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { Module } from "@nestjs/common";

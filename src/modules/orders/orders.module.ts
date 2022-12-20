@@ -1,5 +1,5 @@
 import { CartModule } from './../cart/cart.module';
-import { IOrder, orderSchema } from './../mongo-models/order.model';
+import { IOrder, orderSchema } from './mongo-model/order.model';
 import { OrdersService } from './orders.service';
 import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";

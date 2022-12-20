@@ -1,4 +1,4 @@
-import { ICart } from './../mongo-models/cart.model';
+import { ICart } from './mongo-model/cart.model';
 import { CartDto } from './dto/cart.dto';
 import { CartService } from './cart.service';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe } from "@nestjs/common";

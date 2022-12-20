@@ -1,4 +1,4 @@
-import { ICategory, categorySchema } from './../mongo-models/category.model';
+import { ICategory, categorySchema } from './mongo-model/category.model';
 import { CategoriesService } from './categories.service';
 import { CategoriesController } from './categories.controller';
 import { Module } from "@nestjs/common";

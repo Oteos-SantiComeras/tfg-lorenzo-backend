@@ -1,4 +1,4 @@
-import { IOrder } from './../mongo-models/order.model';
+import { IOrder } from './mongo-model/order.model';
 import { OrderDto } from './dto/order.dto';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";

@@ -1,6 +1,6 @@
 import { CategoriesService } from './../categories/categories.service';
 import { ProductDto } from './dto/product.dto';
-import { IProduct } from './../mongo-models/product.model';
+import { IProduct } from './mongo-model/product.model';
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { PaginationDto } from "oteos-backend-lib";
