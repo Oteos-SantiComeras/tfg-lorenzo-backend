@@ -3,15 +3,12 @@ import { IOrder, orderSchema } from './../mongo-models/order.model';
 import { OrdersService } from './orders.service';
 import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
-import { MongoDbService, PaginationModule, SlackModule, UsersModule } from "oteos-backend-lib";
+import { MongoDbService } from "oteos-backend-lib";
 import { OrdersController } from "./orders.controller";
 
 @Module({
     imports: [
         PassportModule.register({ defaultStrategy: 'jwt' }),
-        PaginationModule,
-        SlackModule,
-        UsersModule,
         CartModule,
     ],
     controllers: [

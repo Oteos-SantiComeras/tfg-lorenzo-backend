@@ -1,9 +1,8 @@
 import { ICart } from './../mongo-models/cart.model';
 import { CartDto } from './dto/cart.dto';
 import { CartService } from './cart.service';
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, ValidationPipe } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { AuthGuard } from '@nestjs/passport';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe } from "@nestjs/common";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { PaginationDto } from 'oteos-backend-lib';
 
 @Controller('api/v1/cart')
@@ -12,8 +11,6 @@ export class CartController {
   constructor(private cartService: CartService) {}
 
   @Get()
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Get all carts',
   })
@@ -24,8 +21,6 @@ export class CartController {
   }
 
   @Post()
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Create a new cart',
   })
@@ -34,8 +29,6 @@ export class CartController {
   }
 
   @Put('/:_id')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Update a cart',
   })
@@ -47,8 +40,6 @@ export class CartController {
   }
 
   @Delete('/:_id')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Delete a cart',
   })

@@ -1,7 +1,7 @@
 import { ProductDto } from './../../products/dto/product.dto';
 import { UserDto } from 'oteos-backend-lib';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CartDto {
   @ApiProperty()

@@ -1,9 +1,8 @@
 import { ICategory } from '../mongo-models/category.model';
 import { CategoryDto } from './dto/category.dto';
 import { CategoriesService } from './categories.service';
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, ValidationPipe, } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe, } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PaginationDto } from 'oteos-backend-lib';
 
 @Controller('api/v1/categories')
@@ -22,8 +21,6 @@ export class CategoriesController {
   }
 
   @Post()
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Create a new category',
   })
@@ -32,8 +29,6 @@ export class CategoriesController {
   }
 
   @Put('/:name')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Update a category',
   })
@@ -45,8 +40,6 @@ export class CategoriesController {
   }
 
   @Delete('/:name')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Delete a category',
   })

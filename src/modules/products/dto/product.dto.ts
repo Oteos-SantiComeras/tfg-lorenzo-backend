@@ -1,13 +1,11 @@
 import { CategoryDto } from './../../categories/dto/category.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class ProductDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  /* @MinLength(15)
-  @MaxLength(15) */
   code: string;
 
   @ApiProperty()

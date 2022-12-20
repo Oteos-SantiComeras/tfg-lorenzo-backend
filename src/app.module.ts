@@ -2,40 +2,35 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { CartModule } from './modules/cart/cart.module';
 import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
-import { configurationSlack } from './configuration/configuration-slack';
 import {
   MongoDbConfig,
   MongoDbModule,
   WebsocketModule,
-  EmailerConfig,
-  EmailerModule,
-  LoggerModule,
   AuthConfig,
   AuthModule,
   PermissionsModule,
   RolesModule,
   UsersModule,
   PaginationModule,
-  SlackModule,
-  SlackConfig,
-  CompaniesModule,
 } from "oteos-backend-lib";
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { configurationApp } from "./configuration/configuration-app";
 import { configurationAuth } from "./configuration/configuration-auth";
-import { configurationEmailer } from "./configuration/configuration-emailer";
 import { configurationMongo } from "./configuration/configuration-mongo";
 import { PopulateModule } from "./modules/populate/populate.module";
+import { PublicMiddleware } from './middlewares/public.middleware';
 require("dotenv").config();
 
 @Module({
   imports: [
+    // Cargar ficheros de configuración de entornos
     ConfigModule.forRoot({
-      load: [configurationApp, configurationMongo, configurationAuth, configurationEmailer, configurationSlack],
+      load: [configurationApp, configurationMongo, configurationAuth],
       envFilePath: `./env/${process.env.NODE_ENV}.env`,
       isGlobal: true,
     }),
+    // Cargar módulo de conexión DB mongo
     MongoDbModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
@@ -50,65 +45,41 @@ require("dotenv").config();
       },
       inject: [ConfigService],
     }),
+    // Cargar módulo de websockets, dependencia para Permisos, roles y usuarios
     WebsocketModule.register({
       port: 8686,
     }),
-    PermissionsModule,
-    RolesModule,
-    CompaniesModule,
-    UsersModule,
+    // Cargar módulo Auth, genera los token cuando el usuario se logea en la página
     AuthModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         const authConfig: AuthConfig = {
           secret: configService.get("auth.secretKey"),
-          signOptions: { 
-            expiresIn: configService.get("auth.expiresIn") 
-          }
         };
         return authConfig;
       },
       inject: [ConfigService],
     }),
-    LoggerModule,
+    // Cargar módulo Pagination, dependencia para Permisos, roles y usuarios.
     PaginationModule,
-    SlackModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        const slackConfig: SlackConfig = {
-          token: configService.get("slack.token"),
-          name: configService.get("slack.name"),
-          appChannel: configService.get("slack.appChannel"),
-        };
-        return slackConfig;
-      },
-      inject: [ConfigService],
-    }),
-    EmailerModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        const emailerConfig: EmailerConfig = {
-          sending_Email_Address: configService.get("emailer.address"),
-          sending_Email_Password: configService.get("emailer.password"),
-        };
-        return emailerConfig;
-      },
-      inject: [ConfigService],
-    }),
+    // Cargar módulos permisos, roles y usuarios de la librería
+    PermissionsModule,
+    RolesModule,
+    UsersModule,
+    // Cargar módulos propios del backend
     CategoriesModule,
     ProductsModule,
-    PopulateModule,
     CartModule,
     OrdersModule,
+    // Cargar módulo de populate (Comprueba si existen los datos basicos y necesarios en la DB, si no los inserta al inciar el proyecto)
+    PopulateModule,
   ],
   controllers: [],
   providers: [],
 })
 
-/* export class AppModule implements NestModule {
+export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
     consumer.apply(PublicMiddleware).forRoutes("*");
   }
-} */
-export class AppModule {
 }

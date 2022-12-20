@@ -1,9 +1,8 @@
 import { IProduct } from './../mongo-models/product.model';
 import { ProductDto } from './dto/product.dto';
 import { ProductsService } from './products.service';
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors, ValidationPipe } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { AuthGuard } from '@nestjs/passport';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors, ValidationPipe } from "@nestjs/common";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { PaginationDto } from 'oteos-backend-lib';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express'
@@ -14,8 +13,6 @@ export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
-  /* @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth') */
   @ApiOperation({
     summary: 'Get all products',
   })
@@ -26,8 +23,6 @@ export class ProductsController {
   }
 
   @Post()
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Create a new product',
   })
@@ -36,8 +31,6 @@ export class ProductsController {
   }
 
   @Put('/:code')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Update a product',
   })
@@ -49,8 +42,6 @@ export class ProductsController {
   }
 
   @Delete('/:code')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Delete a product',
   })
@@ -59,9 +50,7 @@ export class ProductsController {
   }
 
   @Post('setImage/:code')
-  @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('file'))
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: 'Set image to product',
   })
