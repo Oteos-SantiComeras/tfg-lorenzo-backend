@@ -8,19 +8,11 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build && copyfiles -f ./env/* ./dist/env && copyfiles package.json ./dist/ && copyfiles .npmrc ./dist/",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:prod": "cross-env NODE_ENV=production nest start --watch",
     "pm2:start:dev": "cross-env NODE_ENV=development pm2 start main.js --name tfg-lorenzo-backend --update-env",
-    "pm2:start:prod": "cross-env NODE_ENV=production pm2 start main.js --name tfg-lorenzo-backend --update-env",
-    "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "pm2:start:prod": "cross-env NODE_ENV=production pm2 start main.js --name tfg-lorenzo-backend --update-env"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
